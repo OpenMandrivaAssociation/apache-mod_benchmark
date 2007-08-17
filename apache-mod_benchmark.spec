@@ -17,7 +17,6 @@ Source1:	%{mod_conf}.bz2
 Patch0:		mod_benchmark-2.0.0-no_cybase.diff
 Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
-PreReq:		rpm-helper
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.7
 BuildRequires:	MySQL-devel
