@@ -8,7 +8,7 @@
 Summary:	Mod_benchmark is a DSO module for the apache Web server
 Name:		apache-%{mod_name}
 Version:	2.0.0
-Release:	%mkrel 5
+Release:	%mkrel 6
 Group:		System/Servers
 License:	GPL
 URL:		http://www.trickytools.com/php/mod_benchmark.php
@@ -19,7 +19,7 @@ Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.7
-BuildRequires:	MySQL-devel
+BuildRequires:	mysql-devel
 BuildRequires:	postgresql-devel
 Requires:	apache-mod_php
 Requires(pre): rpm-helper
@@ -30,8 +30,6 @@ Requires:	apache-conf >= 2.2.0
 Requires:	apache >= 2.2.0
 BuildRequires:	apache-devel >= 2.2.0
 BuildRequires:	file
-Provides:	apache2-mod_benchmark
-Obsoletes:	apache2-mod_benchmark
 Epoch:		1
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -91,9 +89,6 @@ cp -rp src/.libs .
 install -m0755 .libs/*.so %{buildroot}%{_libdir}/apache-extramodules/
 bzcat %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/modules.d/%{mod_conf}
 
-install -d %{buildroot}%{_var}/www/html/addon-modules
-ln -s ../../../..%{_docdir}/%{name}-%{version} %{buildroot}%{_var}/www/html/addon-modules/%{name}-%{version}
-
 # install other stuff
 install -m755 .libs/benchmark-mysql.so %{buildroot}%{_libdir}/apache-extramodules/
 install -m755 .libs/benchmark-pgsql.so %{buildroot}%{_libdir}/apache-extramodules/
@@ -132,7 +127,4 @@ fi
 %attr(0755,root,root) %{_libdir}/apache-extramodules/benchmark_rt
 %attr(0755,root,root) %{_libdir}/apache-extramodules/benchmark-mysql.so
 %attr(0755,root,root) %{_libdir}/apache-extramodules/benchmark-pgsql.so
-%{_var}/www/html/addon-modules/*
 %{webadminroot}/%{mod_name}/*
-
-
