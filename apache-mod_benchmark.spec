@@ -31,7 +31,6 @@ Requires:	apache >= 2.2.0
 BuildRequires:	apache-devel >= 2.2.0
 BuildRequires:	file
 Epoch:		1
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 mod_benchmark is an apache module that produces Performance
