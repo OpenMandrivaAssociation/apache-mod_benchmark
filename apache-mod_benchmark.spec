@@ -7,13 +7,13 @@
 
 Summary:	DSO module for the apache Web server
 Name:		apache-%{mod_name}
-Version:	2.0.0
-Release:	%mkrel 9
+Version:	2.0.1
+Release:	%mkrel 1
 Group:		System/Servers
 License:	GPL
 URL:		http://www.trickytools.com/php/mod_benchmark.php
-Source0:	%{mod_name}-%{version}.tar.bz2
-Source1:	%{mod_conf}.bz2
+Source0:	http://www.trickytools.com/downloads/%{mod_name}-%{version}.tar.gz
+Source1:	%{mod_conf}
 Patch0:		mod_benchmark-2.0.0-no_cybase.diff
 Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
@@ -31,7 +31,7 @@ Requires:	apache >= 2.2.0
 BuildRequires:	apache-devel >= 2.2.0
 BuildRequires:	file
 Epoch:		1
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 mod_benchmark is an apache module that produces Performance
@@ -49,6 +49,7 @@ of the graphs produced. (MSIE only?)
 %patch1 -p0
 %patch2 -p1
 
+cp %{SOURCE1} %{mod_conf}
 
 pushd benchmark
 # fix dir perms
@@ -79,7 +80,7 @@ export CPPFLAGS="-DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LAR
 %make
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_libdir}/apache-extramodules
 install -d %{buildroot}%{_sysconfdir}/httpd/modules.d
@@ -87,7 +88,7 @@ install -d %{buildroot}%{_sysconfdir}/httpd/modules.d
 cp -rp src/.libs .
 
 install -m0755 .libs/*.so %{buildroot}%{_libdir}/apache-extramodules/
-bzcat %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/modules.d/%{mod_conf}
+install -m0644 %{mod_conf} %{buildroot}%{_sysconfdir}/httpd/modules.d/
 
 # install other stuff
 install -m755 .libs/benchmark-mysql.so %{buildroot}%{_libdir}/apache-extramodules/
@@ -112,7 +113,7 @@ if [ "$1" = "0" ]; then
 fi
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
