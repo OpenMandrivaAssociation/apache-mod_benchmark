@@ -70,7 +70,7 @@ libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing
 
 export CPPFLAGS="-DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE"
 
-%configure2_5x \
+%configure2_5x --localstatedir=/var/lib \
     --with-apxs2=%{_sbindir}/apxs \
     --enable-mysql \
     --enable-pgsql \
