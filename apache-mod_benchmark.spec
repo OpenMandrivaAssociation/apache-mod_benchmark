@@ -8,7 +8,7 @@
 Summary:	DSO module for the apache Web server
 Name:		apache-%{mod_name}
 Version:	2.0.1
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		System/Servers
 License:	GPL
 URL:		http://www.trickytools.com/php/mod_benchmark.php
@@ -17,6 +17,7 @@ Source1:	%{mod_conf}
 Patch0:		mod_benchmark-2.0.0-no_cybase.diff
 Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
+Patch3:		mod_benchmark-2.0.1-format_not_a_string_literal_and_no_format_arguments.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.7
 BuildRequires:	mysql-devel
@@ -48,6 +49,7 @@ of the graphs produced. (MSIE only?)
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
+%patch3 -p0
 
 cp %{SOURCE1} %{mod_conf}
 
