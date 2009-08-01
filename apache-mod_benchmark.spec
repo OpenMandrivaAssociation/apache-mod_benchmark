@@ -66,9 +66,11 @@ find . -type f|xargs file|grep 'CRLF'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 find . -type f|xargs file|grep 'text'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 
 %build
-export WANT_AUTOCONF_2_5=1
-rm -f missing
-libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing
+#export WANT_AUTOCONF_2_5=1
+#rm -f missing
+#libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing
+
+autoreconf -fis
 
 export CPPFLAGS="-DLINUX=2 -D_REENTRANT -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE"
 
