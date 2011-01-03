@@ -8,7 +8,7 @@
 Summary:	DSO module for the apache Web server
 Name:		apache-%{mod_name}
 Version:	2.0.1
-Release:	%mkrel 12
+Release:	%mkrel 13
 Group:		System/Servers
 License:	GPL
 URL:		http://www.trickytools.com/php/mod_benchmark.php
@@ -19,7 +19,7 @@ Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
 Patch3:		mod_benchmark-2.0.1-format_not_a_string_literal_and_no_format_arguments.diff
 BuildRequires:	autoconf2.5
-BuildRequires:	automake1.7
+BuildRequires:	automake
 BuildRequires:	mysql-devel
 BuildRequires:	postgresql-devel
 Requires:	apache-mod_php
@@ -68,7 +68,7 @@ find . -type f|xargs file|grep 'text'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 %build
 #export WANT_AUTOCONF_2_5=1
 #rm -f missing
-#libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing
+#libtoolize --copy --force; aclocal; autoconf; automake --add-missing
 
 autoreconf -fis
 
