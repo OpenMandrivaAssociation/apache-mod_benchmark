@@ -1,0 +1,71 @@
+diff -Naur mod_benchmark-2.0.0/src/mod_benchmark.c mod_benchmark-2.0.0.oden/src/mod_benchmark.c
+--- mod_benchmark-2.0.0/src/mod_benchmark.c	2003-08-15 11:48:10.000000000 +0200
++++ mod_benchmark-2.0.0.oden/src/mod_benchmark.c	2005-12-18 21:53:25.000000000 +0100
+@@ -93,7 +93,7 @@
+ 	char	*dirname;	/* directory for temp files shared with benchmark_rt */
+ 	int	msgid;		/* ID of the message queue */
+ 	int	traceDebug;	/* directive BenchmarkTrace debug */
+-	regex_t **regAccept;	/* from BenchmarkAccept directive */
++	ap_regex_t **regAccept;	/* from BenchmarkAccept directive */
+ 	int 	regCount;	/* count od regex directives */
+ 	apr_dso_handle_t *hmod;		/* handle to the DB module */
+ 	void*   (*db_init)(apr_pool_t *pool, char *srv, char *db, char *u, char *p);	/* DB module db_init() entry point */
+@@ -237,15 +237,15 @@
+ {	
+ 	char *msg = NULL;
+ 	bench_config *cfg = (bench_config *)config;
+-	regex_t *reg,**newreg;
++	ap_regex_t *reg,**newreg;
+ 
+-	if (!(reg = ap_pregcomp(parms->pool,expr,REG_EXTENDED))) 
++	if (!(reg = ap_pregcomp(parms->pool,expr,AP_REG_EXTENDED))) 
+ 		return "Bad RE for BenchmarkAccept directive";
+ 
+ 	/* allocate more room : */
+-	newreg = (regex_t **)apr_palloc(parms->pool,sizeof(regex_t *) * (cfg->regCount + 1));
++	newreg = (ap_regex_t **)apr_palloc(parms->pool,sizeof(ap_regex_t *) * (cfg->regCount + 1));
+ 	if (cfg->regCount) 
+-		memcpy(newreg,cfg->regAccept,sizeof(regex_t *) * cfg->regCount);
++		memcpy(newreg,cfg->regAccept,sizeof(ap_regex_t *) * cfg->regCount);
+ 	newreg[cfg->regCount] = reg;
+ 	cfg->regAccept = newreg;
+ 	cfg->regCount++;
+@@ -547,17 +547,27 @@
+  * ------------------------
+  */
+ command_rec benchmark_cmds[] = {
+-    { "BenchmarkUseScoreBoard", benchmark_scoreboard_cmd, NULL, RSRC_CONF, FLAG, "Use Apache ScoreBoard ?" },
+-    { "BenchmarkWithSysInfo", benchmark_sysinfo_cmd, NULL, RSRC_CONF, TAKE1, "Store the system average load and mem usage ?" },
+-    { "BenchmarkWithLogInfo", benchmark_loginfo_cmd, NULL, RSRC_CONF, FLAG, "Generate variables for LogFormat ?" },
+-    { "BenchmarkWithStatProg", benchmark_statprog_cmd, NULL, RSRC_CONF, TAKE1 , "Send Data to benchmark_rt" },
+-    { "BenchmarkTrace", benchmark_trace_cmd, NULL, RSRC_CONF, TAKE1, "Debug listed components (debug)" },
+-    { "BenchmarkStore", benchmark_store_cmd, NULL, RSRC_CONF, TAKE1, "Optional definition of storage target (dbtype:dbname:user:pwd)" },
+-    { "BenchmarkAlertAction", benchmark_alertaction_cmd, NULL, RSRC_CONF, TAKE1, "Process to call for sending alerts" },
+-    { "BenchmarkEngine", benchmark_engine_cmd, NULL, ACCESS_CONF, FLAG, "Start/Stop the engine" },
+-    { "BenchmarkAccept", benchmark_accept_cmd, NULL, ACCESS_CONF, TAKE1, "Extended RE that list the files to be analyzed" },
+-    { "BenchmarkAlertLimit", benchmark_alertlimit_cmd, NULL, ACCESS_CONF, TAKE1, "Limit of time (in milliseconds) a request can take before alert" },
+-    { NULL }
++    AP_INIT_FLAG("BenchmarkUseScoreBoard", benchmark_scoreboard_cmd, NULL,
++     RSRC_CONF, "Use Apache ScoreBoard ?"),
++    AP_INIT_TAKE1("BenchmarkWithSysInfo", benchmark_sysinfo_cmd, NULL,
++     RSRC_CONF, "Store the system average load and mem usage ?"),
++    AP_INIT_FLAG("BenchmarkWithLogInfo", benchmark_loginfo_cmd, NULL,
++     RSRC_CONF, "Generate variables for LogFormat ?"),
++    AP_INIT_TAKE1("BenchmarkWithStatProg", benchmark_statprog_cmd, NULL, 
++     RSRC_CONF, "Send Data to benchmark_rt"),
++    AP_INIT_TAKE1("BenchmarkTrace", benchmark_trace_cmd, NULL, 
++     RSRC_CONF, "Debug listed components (debug)"),
++    AP_INIT_TAKE1("BenchmarkStore", benchmark_store_cmd, NULL, 
++     RSRC_CONF, "Optional definition of storage target (dbtype:dbname:user:pwd)"),
++    AP_INIT_TAKE1("BenchmarkAlertAction", benchmark_alertaction_cmd, NULL, 
++     RSRC_CONF, "Process to call for sending alerts"),
++    AP_INIT_FLAG("BenchmarkEngine", benchmark_engine_cmd, NULL, 
++     ACCESS_CONF, "Start/Stop the engine"),
++    AP_INIT_TAKE1("BenchmarkAccept", benchmark_accept_cmd, NULL, 
++     ACCESS_CONF, "Extended RE that list the files to be analyzed"),
++    AP_INIT_TAKE1("BenchmarkAlertLimit", benchmark_alertlimit_cmd, NULL, 
++      ACCESS_CONF, "Limit of time (in milliseconds) a request can take before alert"),
++    {NULL}
+ };
+ 
+ /*

@@ -1,0 +1,11 @@
+--- configure.in	2004-06-14 00:45:28.133460877 +0200
++++ configure.in.oden	2004-06-14 00:49:02.996572488 +0200
+@@ -76,7 +76,7 @@
+ fi
+ 
+ dnl Get Apache directories
+-APACHE_INCDIR=-I`$APXS_BINDIR -q INCLUDEDIR`
++APACHE_INCDIR="-I`$APXS_BINDIR -q INCLUDEDIR` `apr-1-config --includes` `apu-1-config --includes`"
+ AC_SUBST(APACHE_INCDIR)
+ APACHE_LIBEXECDIR=`$APXS_BINDIR -q LIBEXECDIR`
+ AC_SUBST(APACHE_LIBEXECDIR)

@@ -1,0 +1,20 @@
+--- src/mod_benchmark.c	2009-01-07 09:43:56.000000000 +0100
++++ src/mod_benchmark.c.oden	2009-01-07 09:47:28.000000000 +0100
+@@ -496,7 +496,7 @@ static const char *benchmark_store_cmd(c
+ 	if ((apr = apr_dso_load(&cfg->hmod,storedesc,parms->pool)) != APR_SUCCESS) {
+ 		char buff[512];
+ 		apr_dso_error(cfg->hmod,buff,sizeof(buff));
+-		ap_log_error(APLOG_MARK,APLOG_ERR,apr,parms->server,buff);
++		ap_log_error(APLOG_MARK,APLOG_ERR,apr,parms->server,"%s",buff);
+ 		ap_log_error(APLOG_MARK,APLOG_ERR,apr,parms->server,
+ 			"Module %s not found",storedesc);
+ 		printf("%s\n",dlerror());
+@@ -507,7 +507,7 @@ static const char *benchmark_store_cmd(c
+ 	if ((apr = apr_dso_sym((apr_dso_handle_sym_t *)&cfg->db_init,cfg->hmod,"db_init")) != APR_SUCCESS) {
+ 		char buff[512];
+ 		apr_dso_error(cfg->hmod,buff,sizeof(buff));
+-		ap_log_error(APLOG_MARK,APLOG_ERR,apr,parms->server,buff);
++		ap_log_error(APLOG_MARK,APLOG_ERR,apr,parms->server,"%s",buff);
+ 		return "db_init not found in DB module";
+ 	}
+ 	if ((apr = apr_dso_sym((apr_dso_handle_sym_t *)&cfg->db_insert,cfg->hmod,"db_insert")) != APR_SUCCESS) 
