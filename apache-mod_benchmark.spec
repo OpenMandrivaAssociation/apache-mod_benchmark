@@ -11,7 +11,7 @@ Version:	2.0.1
 Release:	%mkrel 16
 Group:		System/Servers
 License:	GPL
-URL:		http://www.trickytools.com/php/mod_benchmark.php
+URL:		https://www.trickytools.com/php/mod_benchmark.php
 Source0:	http://www.trickytools.com/downloads/%{mod_name}-%{version}.tar.gz
 Source1:	%{mod_conf}
 Patch0:		mod_benchmark-2.0.0-no_cybase.diff
