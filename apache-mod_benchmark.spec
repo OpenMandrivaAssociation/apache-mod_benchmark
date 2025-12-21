@@ -18,6 +18,8 @@ Patch0:		mod_benchmark-2.0.0-no_cybase.diff
 Patch1:		mod_benchmark-1.6-apr.diff
 Patch2:		mod_benchmark-2.0.0-apache220.diff
 Patch3:		mod_benchmark-2.0.1-format_not_a_string_literal_and_no_format_arguments.diff
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	autoconf2.5
 BuildRequires:	automake
 BuildRequires:	mysql-devel
