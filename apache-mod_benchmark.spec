@@ -8,7 +8,7 @@
 Summary:	DSO module for the apache Web server
 Name:		apache-%{mod_name}
 Version:	2.0.1
-Release:	%mkrel 16
+Release:	17
 Group:		System/Servers
 License:	GPL
 URL:		https://www.trickytools.com/php/mod_benchmark.php
